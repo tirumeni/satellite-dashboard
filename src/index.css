@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------------------------------------------------------------
+   Base layer
+   ---------------------------------------------------------------------- */
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  * {
+    @apply border-hairline;
+  }
+
+  html {
+    scrollbar-color: rgba(100, 116, 139, .65) rgba(15, 23, 42, .55);
+    scrollbar-width: thin;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: rgba(15, 23, 42, .55); }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(71, 85, 105, .9), rgba(51, 65, 85, .8)); border: 2px solid rgba(15, 23, 42, .8); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, rgba(100, 116, 139, .95), rgba(71, 85, 105, .9)); }
+
+  /* Visible keyboard focus everywhere — accessibility requirement from the
+     approved spec (section 14: Accessibility Recommendations) */
+  :focus-visible {
+    outline: 2px solid theme("colors.primary.DEFAULT");
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: theme("colors.primary.subtle");
+  }
+
+  select { color-scheme: dark; }
+  button, input, select, textarea { font: inherit; }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Reusable component-level utility classes
+   These implement the "Glassmorphism Specification" (design system §15)
+   and elevation scale (§11) so every component references one source.
+   ---------------------------------------------------------------------- */
+@layer components {
+  .skeleton-shimmer {
+    background: linear-gradient(100deg, rgba(255,255,255,.035) 20%, rgba(255,255,255,.10) 38%, rgba(255,255,255,.035) 56%);
+    background-size: 220% 100%;
+    animation: skeleton-shimmer 1.35s ease-in-out infinite;
+  }
+
+  @keyframes skeleton-shimmer {
+    to { background-position-x: -220%; }
+  }
+
+  /* Glass surface recipe — used for floating/overlay elements only:
+     search bar, map controls, layer panel, top bar, loading card, tooltips.
+     NOT used for drawers, stat cards, or buttons (see design system §15). */
+  .glass-surface {
+    background: linear-gradient(145deg, rgba(30, 41, 59, .48), rgba(17, 24, 39, .82) 58%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(148, 163, 184, .13);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255,255,255,.035);
+  }
+
+  .glass-surface-light {
+    background-color: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid theme("colors.hairline");
+  }
+
+  .glass-topbar {
+    background: linear-gradient(100deg, rgba(15, 23, 42, .94), rgba(11, 18, 32, .88));
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  }
+
+  /* Grounded (solid) surface — stat cards, drawers, standard cards */
+  .surface-card {
+    background: linear-gradient(145deg, rgba(30, 41, 59, .68), rgba(17, 24, 39, .96) 76%);
+    border: 1px solid rgba(148, 163, 184, .12);
+    border-radius: theme("borderRadius.card");
+    box-shadow: theme("boxShadow.elevation-1");
+    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  }
+
+  .surface-card:hover {
+    transform: translateY(-2px);
+    box-shadow: theme("boxShadow.elevation-2");
+  }
+
+  .button-motion {
+    position: relative;
+    isolation: isolate;
+    transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, color 180ms ease;
+  }
+
+  .button-motion::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(.35);
+    background: radial-gradient(circle, rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 68%);
+    transition: transform 360ms ease, opacity 360ms ease;
+  }
+
+  .button-motion:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 18px rgba(0,0,0,.16);
+  }
+
+  .button-motion:active:not(:disabled)::after {
+    opacity: 1;
+    transform: scale(2.2);
+    transition-duration: 80ms;
+  }
+
+  .button-motion:disabled {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .dashboard-shell {
+    background: radial-gradient(ellipse 75% 36% at 50% -8%, rgba(37, 99, 235, .12), transparent 72%), #0B1220;
+  }
+
+  .dashboard-tooltip { position: relative; }
+  .dashboard-tooltip::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    z-index: 1000;
+    left: 50%;
+    bottom: calc(100% + 9px);
+    width: max-content;
+    max-width: 220px;
+    padding: 6px 9px;
+    border: 1px solid rgba(148, 163, 184, .18);
+    border-radius: 7px;
+    background: rgba(15, 23, 42, .96);
+    color: #e2e8f0;
+    box-shadow: 0 8px 24px rgba(0,0,0,.32);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.35;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, 3px);
+    transition: opacity 140ms ease, transform 140ms ease;
+  }
+  .dashboard-tooltip:hover::before,
+  .dashboard-tooltip:focus-visible::before { opacity: 1; transform: translate(-50%, 0); }
+}

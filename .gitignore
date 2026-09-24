@@ -1,0 +1,55 @@
+# Secrets and local configuration. Keep example templates trackable.
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!.env.*.example
+!**/.env.example
+!**/.env.*.example
+backend/.env
+frontend/.env
+
+# Node.js dependencies and generated output
+node_modules/
+dist/
+build/
+.vite/
+.cache/
+coverage/
+test-results/
+playwright-report/
+storybook-static/
+
+# Python virtual environments and generated caches
+.venv/
+venv/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local databases and runtime data
+*.sqlite
+*.sqlite3
+*.db
+backend/data/*.sqlite*
+
+# Logs, temporary files, and compiler caches
+*.log
+npm-debug.log*
+yarn-error.log*
+*.tmp
+*.temp
+*.bak
+*~
+*.tsbuildinfo
+package-lock*.json.bak
+
+# OS / IDE local files. Shared VS Code workspace files remain trackable.
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/settings.json
