@@ -1,6 +1,6 @@
 ﻿from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy.orm import Session
-from backend.database.session import get_db
+from database.session import get_db
 from backend.schemas.analysis import AnalysisRequest, AnalysisResponse
 from backend.schemas.history import HistoryCreate
 from backend.schemas.saved import SaveRequest
