@@ -1,7 +1,7 @@
 from collections.abc import Generator
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
-from backend.config.settings import settings
+from config.settings import settings
 from backend.database.base import Base
 
 connect_args = {"check_same_thread": False} if settings.is_sqlite else {}
