@@ -1,13 +1,21 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
+import sys
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
 
-from api.routes import api_router
-from config.settings import settings
-from database.session import init_db
+# Support both `uvicorn main:app` from backend/ and
+# `uvicorn backend.main:app` from the repository root.
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from backend.api.routes import api_router
+from backend.config.settings import settings
+from backend.database.session import init_db
 
 
 @asynccontextmanager
