@@ -12,7 +12,7 @@ from google.genai import types
 import httpx
 from pydantic import BaseModel, Field, ValidationError
 
-from backend.config.settings import settings
+from config.settings import settings
 
 logger = logging.getLogger(__name__)
 

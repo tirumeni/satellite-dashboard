@@ -1,9 +1,9 @@
 from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-from backend.models.entities import Analysis, SavedAnalysis
-from backend.schemas.saved import SaveRequest
-from backend.services.database_service import database_service
+from models.entities import Analysis, SavedAnalysis
+from schemas.saved import SaveRequest
+from services.database_service import database_service
 
 
 class SavedAnalysisService:

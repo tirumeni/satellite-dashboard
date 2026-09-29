@@ -7,19 +7,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
 
-# Support both `uvicorn main:app` from backend/ and
-# `uvicorn backend.main:app` from the repository root.
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
+# Add backend directory to Python path
+BASE_DIR = Path(__file__).resolve().parent
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
 
-from backend.api.routes import api_router
-from backend.config.settings import settings
-from backend.database.session import init_db
+from api.routes import api_router
+from config.settings import settings
+from database.session import init_db
 
 
 @asynccontextmanager
-async def lifespan(_: FastAPI):
+async def lifespan(app: FastAPI):
     init_db()
     yield
 
@@ -43,17 +42,27 @@ app.include_router(api_router)
 
 
 @app.exception_handler(SQLAlchemyError)
-async def database_error_handler(_: Request, __: SQLAlchemyError):
+async def database_error_handler(request: Request, exc: SQLAlchemyError):
     return JSONResponse(
         status_code=500,
-        content={"detail": "Database operation failed.", "code": "DATABASE_ERROR"},
+        content={
+            "detail": "Database operation failed.",
+            "code": "DATABASE_ERROR",
+        },
     )
 
 
 @app.get("/", tags=["health"])
-def root():
+async def root():
     return {
         "name": settings.app_name,
         "docs": "/docs",
         "health": "/health",
+    }
+
+
+@app.get("/health", tags=["health"])
+async def health():
+    return {
+        "status": "healthy"
     }

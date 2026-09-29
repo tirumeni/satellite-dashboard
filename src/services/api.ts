@@ -5,7 +5,8 @@ export class ValidationError extends APIError { constructor(message: string, det
 export class NetworkError extends APIError { constructor(message = "The analysis service could not be reached.") { super(message, "NETWORK"); this.name = "NetworkError"; } }
 export class DatabaseError extends APIError { constructor(message = "The analysis service could not save or load data.", status?: number) { super(message, "DATABASE", status); this.name = "DatabaseError"; } }
 
-const baseUrl = (import.meta.env.VITE_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
+const defaultApiUrl = import.meta.env.DEV ? "http://127.0.0.1:8000" : "/api";
+const baseUrl = (import.meta.env.VITE_API_URL || defaultApiUrl).replace(/\/$/, "");
 export interface RequestOptions { method?: "GET" | "POST" | "DELETE"; body?: unknown; timeoutMs?: number; retries?: number; signal?: AbortSignal }
 
 export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {

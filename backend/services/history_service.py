@@ -1,6 +1,6 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-from backend.models.entities import SearchHistory
+from models.entities import SearchHistory
 
 
 class HistoryService:

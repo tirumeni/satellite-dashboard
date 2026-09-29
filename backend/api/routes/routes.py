@@ -1,15 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy.orm import Session
 
-from backend.api.deps import get_db
-from backend.schemas.analysis import AnalysisRequest, AnalysisResponse
-from backend.schemas.history import HistoryCreate
-from backend.schemas.saved import SaveRequest
-from backend.services.analysis_service import analysis_service
-from backend.services.history_service import history_service
-from backend.services.report_service import report_service
-from backend.services.saved_analysis_service import saved_analysis_service
-from backend.services.search_service import search_service
+from api.deps import get_db
+from schemas.analysis import AnalysisRequest, AnalysisResponse
+from schemas.history import HistoryCreate
+from schemas.saved import SaveRequest
+from services.analysis_service import analysis_service
+from services.history_service import history_service
+from services.report_service import report_service
+from services.saved_analysis_service import saved_analysis_service
+from services.search_service import search_service
 
 api_router = APIRouter()
 

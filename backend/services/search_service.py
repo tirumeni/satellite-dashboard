@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
-from backend.models.entities import SearchHistory
-from backend.schemas.history import HistoryCreate
-from backend.services.database_service import database_service
+from models.entities import SearchHistory
+from schemas.history import HistoryCreate
+from services.database_service import database_service
 
 
 class SearchService:

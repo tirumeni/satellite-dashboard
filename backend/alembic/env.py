@@ -4,11 +4,12 @@ import sys
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-root = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(root))
-from backend.config.settings import settings
-from backend.database.base import Base
-from backend.models import entities  # noqa: F401
+backend_dir = Path(__file__).resolve().parents[1]
+if str(backend_dir) not in sys.path:
+    sys.path.insert(0, str(backend_dir))
+from config.settings import settings
+from database.base import Base
+from models import entities  # noqa: F401
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.database_url.replace("%", "%%"))

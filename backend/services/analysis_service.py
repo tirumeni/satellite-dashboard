@@ -1,10 +1,10 @@
 from uuid import uuid4
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-from backend.models.entities import Analysis
-from backend.schemas.analysis import AnalysisRequest
-from backend.services.database_service import database_service
-from backend.services.gemini_service import GeminiService, gemini_service
+from models.entities import Analysis
+from schemas.analysis import AnalysisRequest
+from services.database_service import database_service
+from services.gemini_service import GeminiService, gemini_service
 
 
 class AnalysisService:

@@ -1,3 +1,3 @@
-from backend.database.session import get_db
+from database.session import get_db
 
 __all__ = ["get_db"]
